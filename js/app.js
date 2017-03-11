@@ -35,7 +35,7 @@
         // Add the interaction
         setupBoardInteraction();
 
-        // Set human player to start the game
+        // Set first player to start the game
         setCurrentPlayer(player1);
     };
 
@@ -47,11 +47,12 @@
                 if(checkIfFilled(gameSquares[i])) {
                     console.log("This box is filled. You can't select or use it")
                 } else {
-                    if (currentPlayer = "O") {
+                    console.log(currentPlayer);
+                    if (currentPlayer === "O") {
                         this.style.backgroundImage = "url('./img/o.svg')";
                         this.style.backgroundRepeat = "no-repeat";
                         this.style.backgroundSize = "cover";
-                    } else {
+                    } else if (currentPlayer === "X") {
                         this.style.backgroundImage = "url('./img/x.svg')";
                         this.style.backgroundRepeat = "no-repeat";
                         this.style.backgroundSize = "cover";
@@ -75,16 +76,22 @@
                 if(checkIfFilled(gameSquares[i])) {
                     console.log("This box is filled. Leave it alone.")
                 } else {
-                    if(currentPlayer == player1) {
-                        console.log("adding class");
+                    if(currentPlayer === "O") {
+                        console.log("Adding orange");
                         this.classList.add("box-filled-1");
-                    } else {
+                    } else if (currentPlayer === "X") {
+                        console.log("adding blue");
                         this.classList.add("box-filled-2");
                     }
+
                     // Computer won't actually click. The selection will be done programatically
                         // Check if there's a winner or tie
+
+                    checkIfGameOver();
+
                     // If not, Change currentPlayer to opposite player
-                    if(currentPlayer === player1) {
+                    if(currentPlayer === "O") {
+                        console.log("changing players");
                         setCurrentPlayer(player2);
                     } else {
                         setCurrentPlayer(player1);
@@ -104,13 +111,19 @@
 
         if(currentPlayer === "O") {
             humanPlayerBox.classList.add("active");
+            computerPlayerBox.classList.remove("active");
         } else {
             computerPlayerBox.classList.add("active");
+            humanPlayerBox.classList.remove("active");
         }
     }
 
     function checkIfFilled(box) {
         return box.classList.contains("box-filled-1") || box.classList.contains("box-filled-2");
+    }
+
+    function checkIfGameOver() {
+        //Grab all list items
     }
 
 }());
