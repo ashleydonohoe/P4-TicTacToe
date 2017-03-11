@@ -88,14 +88,20 @@
                         this.classList.add("box-filled-2");
                     }
 
-                    // Computer won't actually click. The selection will be done programatically
-                        // Check if there's a winner or tie
-
+                    // Check if there's a winner or tie
                     checkIfGameOver();
-                    if(winner !== "" || tie === true) {
+
+                    if(winner !== "" && tie === false) {
                         alert("Game Over!");
-                        body.innerHTML = "<h1>Game Over</h1><p>" + winner + " wins</p>";
-                    } else {
+                        if(winner === player1) {
+                            body.innerHTML = "<h1>Game Over</h1><p>" + playerOneName + " wins</p>";
+                        } else {
+                            body.innerHTML = "<h1>Game Over</h1><p>" + playerTwoName + " wins</p>";
+                        }
+                    } else if(tie === true) {
+                        alert("Tie!");
+                        body.innerHTML = "<h1>Game Over</h1><p>It's a tie!</p>";
+                    }else {
                         // If not, Change currentPlayer to opposite player
                         if(currentPlayer === "O") {
                             console.log("changing players");
@@ -159,14 +165,23 @@
 
         function checkTie() {
             if(winner === "") {
+                console.log("no winner, checking for tie");
+
+                let filledSquares = 0;
+
+                // Loop through each square to see if it's missing one of the two classes
                 for(let i = 0; i < gameSquares.length; i++) {
-                    // check if all squares have either the box-filled-1 or box-filled-2 class
-                    if(!(gameSquares[i].classList.contains("box-filled-1") || gameSquares[i].classList.contains("box-filled-2"))){
-                        break;
-                    } else {
-                        tie = true;
+                    // check if all squares have either the box-filled-1 or box-filled-2 class; increment counter if so
+                    if((gameSquares[i].classList.contains("box-filled-1") || gameSquares[i].classList.contains("box-filled-2"))){
+                        // if neither class is present for ANY, then we can break and assume no tie and break
+                        filledSquares++;
                     }
                 }
+
+                if(filledSquares === 9) {
+                    tie = true;
+                }
+
             }
 
         }
