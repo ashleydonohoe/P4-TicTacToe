@@ -13,6 +13,7 @@
     const player1 = "O";
     const player2 = "X";
     let currentPlayer;
+    let winner;
 
 
     // Start game
@@ -124,6 +125,38 @@
 
     function checkIfGameOver() {
         //Grab all list items
+        let gameSquares = document.getElementsByClassName("box");
+
+        checkHorizontal();
+
+        // Possible win combinations
+            // Horizontal
+                // 1,2,3 -> 0, 1, 2
+                // 4,5,6 -> 2, 4, 5
+                // 7,8,9 -> 6, 7, 8
+        function checkHorizontal() {
+            if(checkWin(0, 1, 2) || checkWin(2, 4, 5) || checkWin(6,7,8)) {
+                console.log(winner + " wins!");
+                return true;
+            } else {
+                console.log("no win yet!");
+            }
+        }
+
+            // Vertical
+                // 1, 4, 7
+                // 2, 5, 8
+                // 3, 6, 9
+
+            // Diagonal
+                // 1, 5, 9
+                // 7, 5, 3
+
+        function checkWin(square1, square2, square3) {
+            return gameSquares[square1].classList.contains("box-filled-1") && gameSquares[square2].classList.contains("box-filled-1") && gameSquares[square3].classList.contains("box-filled-1");
+        }
+
+
     }
 
 }());
