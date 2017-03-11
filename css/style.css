@@ -202,9 +202,10 @@ h1 {
   background-image: url(../img/x.svg);
 }
 
-#name {
+#name1,
+#name2 {
   display: block;
-  margin: 5% auto;
+  margin: 3% auto;
   height: 3em;
   border: none;
   border-radius: 3%;
