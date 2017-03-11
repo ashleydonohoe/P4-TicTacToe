@@ -6,12 +6,12 @@
     const nameField1 = document.getElementById("name1");
     const nameField2 = document.getElementById("name2");
 
-
     let playerOneName;
     let playerTwoName;
 
     const player1 = "O";
     const player2 = "X";
+
     let currentPlayer;
     let winner = "";
     let tie = false;
@@ -48,10 +48,7 @@
         let gameSquares = document.getElementsByClassName("box");
         for(let i = 0; i < gameSquares.length; i++) {
             gameSquares[i].addEventListener("mouseover", function(event) {
-                if(checkIfFilled(gameSquares[i])) {
-                    console.log("This box is filled. You can't select or use it")
-                } else {
-                    console.log(currentPlayer);
+                if(!checkIfFilled(gameSquares[i])) {
                     if (currentPlayer === "O") {
                         this.style.backgroundImage = "url('./img/o.svg')";
                         this.style.backgroundRepeat = "no-repeat";
@@ -61,25 +58,19 @@
                         this.style.backgroundRepeat = "no-repeat";
                         this.style.backgroundSize = "cover";
                     }
-
-                    console.log("adding background");
                 }
             });
 
             // On mouse out, the background image disappears
             gameSquares[i].addEventListener("mouseout", function(event) {
-                if(checkIfFilled(gameSquares[i])) {
-                    console.log("This box is filled. Leave it alone.")
-                } else {
+                if(!checkIfFilled(gameSquares[i])) {
                     this.style.background = "#EFEFEF";
                 }
             });
 
             // Add click listener for user selection
             gameSquares[i].addEventListener("click", function(event) {
-                if(checkIfFilled(gameSquares[i])) {
-                    console.log("This box is filled. Leave it alone.")
-                } else {
+                if(!checkIfFilled(gameSquares[i])) {
                     if(currentPlayer === "O") {
                         console.log("Adding orange");
                         this.classList.add("box-filled-1");
@@ -92,19 +83,16 @@
                     checkIfGameOver();
 
                     if(winner !== "" && tie === false) {
-                        alert("Game Over!");
                         if(winner === player1) {
                             body.innerHTML = "<h1>Game Over</h1><p>" + playerOneName + " wins</p>";
                         } else {
                             body.innerHTML = "<h1>Game Over</h1><p>" + playerTwoName + " wins</p>";
                         }
                     } else if(tie === true) {
-                        alert("Tie!");
                         body.innerHTML = "<h1>Game Over</h1><p>It's a tie!</p>";
                     }else {
                         // If not, Change currentPlayer to opposite player
                         if(currentPlayer === "O") {
-                            console.log("changing players");
                             setCurrentPlayer(player2);
                         } else {
                             setCurrentPlayer(player1);
@@ -140,33 +128,31 @@
         //Grab all list items
         const gameSquares = document.getElementsByClassName("box");
 
+        // Check all possible options; check tie LAST to first see if there's a winner
         checkHorizontal();
         checkVertical();
         checkDiagonal();
         checkTie();
 
         function checkHorizontal() {
-            if(checkWin(0, 1, 2) || checkWin(3, 4, 5) || checkWin(6, 7, 8)) {
-                console.log(winner + " wins!");
-            }
+            checkWin(0, 1, 2);
+            checkWin(3, 4, 5);
+            checkWin(6, 7, 8);
         }
 
         function checkVertical() {
-            if(checkWin(0, 3, 6) || checkWin(1, 4, 7) || checkWin(2, 5, 8)) {
-                console.log(winner + " wins!");
-            }
+            checkWin(0, 3, 6);
+            checkWin(1, 4, 7);
+            checkWin(2, 5, 8);
         }
 
         function checkDiagonal() {
-            if(checkWin(0, 4, 8) || checkWin(2, 4, 6)) {
-                console.log(winner + " wins!");
-            }
+            checkWin(0, 4, 8);
+            checkWin(2, 4, 6);
         }
 
         function checkTie() {
             if(winner === "") {
-                console.log("no winner, checking for tie");
-
                 let filledSquares = 0;
 
                 // Loop through each square to see if it's missing one of the two classes
@@ -181,9 +167,7 @@
                 if(filledSquares === 9) {
                     tie = true;
                 }
-
             }
-
         }
 
         // Takes 3 squares as input and checks if they share the same class for a win
