@@ -13,7 +13,9 @@
     const player1 = "O";
     const player2 = "X";
     let currentPlayer;
-    let winner;
+    let winner = "";
+
+    console.log(winner);
 
 
     // Start game
@@ -89,13 +91,17 @@
                         // Check if there's a winner or tie
 
                     checkIfGameOver();
-
-                    // If not, Change currentPlayer to opposite player
-                    if(currentPlayer === "O") {
-                        console.log("changing players");
-                        setCurrentPlayer(player2);
+                    if(winner !== "") {
+                        alert("Game Over!");
+                        body.innerHTML = "<h1>Game Over</h1><p>" + winner + " wins</p>";
                     } else {
-                        setCurrentPlayer(player1);
+                        // If not, Change currentPlayer to opposite player
+                        if(currentPlayer === "O") {
+                            console.log("changing players");
+                            setCurrentPlayer(player2);
+                        } else {
+                            setCurrentPlayer(player1);
+                        }
                     }
                 }
             });
@@ -129,17 +135,10 @@
 
         checkHorizontal();
 
-        // Possible win combinations
-            // Horizontal
-                // 1,2,3 -> 0, 1, 2
-                // 4,5,6 -> 2, 4, 5
-                // 7,8,9 -> 6, 7, 8
         function checkHorizontal() {
             if(checkWin(0, 1, 2) || checkWin(2, 4, 5) || checkWin(6,7,8)) {
                 console.log(winner + " wins!");
                 return true;
-            } else {
-                console.log("no win yet!");
             }
         }
 
@@ -153,7 +152,13 @@
                 // 7, 5, 3
 
         function checkWin(square1, square2, square3) {
-            return gameSquares[square1].classList.contains("box-filled-1") && gameSquares[square2].classList.contains("box-filled-1") && gameSquares[square3].classList.contains("box-filled-1");
+            if((gameSquares[square1].classList.contains("box-filled-1") && gameSquares[square2].classList.contains("box-filled-1") && gameSquares[square3].classList.contains("box-filled-1"))) {
+                winner = player1;
+                console.log("p1 wins");
+            } else if((gameSquares[square1].classList.contains("box-filled-2") && gameSquares[square2].classList.contains("box-filled-2") && gameSquares[square3].classList.contains("box-filled-2"))) {
+                winner = player2;
+                console.log("p2 wins");
+            }
         }
 
 
