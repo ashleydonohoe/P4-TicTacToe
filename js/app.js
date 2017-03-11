@@ -14,6 +14,7 @@
     const player2 = "X";
     let currentPlayer;
     let winner = "";
+    let tie = false;
 
     console.log(winner);
 
@@ -91,7 +92,7 @@
                         // Check if there's a winner or tie
 
                     checkIfGameOver();
-                    if(winner !== "") {
+                    if(winner !== "" || tie === true) {
                         alert("Game Over!");
                         body.innerHTML = "<h1>Game Over</h1><p>" + winner + " wins</p>";
                     } else {
@@ -131,36 +132,44 @@
 
     function checkIfGameOver() {
         //Grab all list items
-        let gameSquares = document.getElementsByClassName("box");
+        const gameSquares = document.getElementsByClassName("box");
 
         checkHorizontal();
+        checkVertical();
+        checkDiagonal();
+        checkTie();
 
         function checkHorizontal() {
-            if(checkWin(0, 1, 2) || checkWin(2, 4, 5) || checkWin(6,7,8)) {
+            if(checkWin(0, 1, 2) || checkWin(3, 4, 5) || checkWin(6, 7, 8)) {
                 console.log(winner + " wins!");
             }
         }
 
         function checkVertical() {
-
+            if(checkWin(0, 3, 6) || checkWin(1, 4, 7) || checkWin(2, 5, 8)) {
+                console.log(winner + " wins!");
+            }
         }
 
         function checkDiagonal() {
-
+            if(checkWin(0, 4, 8) || checkWin(2, 4, 6)) {
+                console.log(winner + " wins!");
+            }
         }
 
         function checkTie() {
+            if(winner === "") {
+                for(let i = 0; i < gameSquares.length; i++) {
+                    // check if all squares have either the box-filled-1 or box-filled-2 class
+                    if(!(gameSquares[i].classList.contains("box-filled-1") || gameSquares[i].classList.contains("box-filled-2"))){
+                        break;
+                    } else {
+                        tie = true;
+                    }
+                }
+            }
 
         }
-
-            // Vertical
-                // 1, 4, 7
-                // 2, 5, 8
-                // 3, 6, 9
-
-            // Diagonal
-                // 1, 5, 9
-                // 7, 5, 3
 
         // Takes 3 squares as input and checks if they share the same class for a win
         function checkWin(square1, square2, square3) {
