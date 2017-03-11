@@ -138,8 +138,19 @@
         function checkHorizontal() {
             if(checkWin(0, 1, 2) || checkWin(2, 4, 5) || checkWin(6,7,8)) {
                 console.log(winner + " wins!");
-                return true;
             }
+        }
+
+        function checkVertical() {
+
+        }
+
+        function checkDiagonal() {
+
+        }
+
+        function checkTie() {
+
         }
 
             // Vertical
@@ -151,6 +162,7 @@
                 // 1, 5, 9
                 // 7, 5, 3
 
+        // Takes 3 squares as input and checks if they share the same class for a win
         function checkWin(square1, square2, square3) {
             if((gameSquares[square1].classList.contains("box-filled-1") && gameSquares[square2].classList.contains("box-filled-1") && gameSquares[square3].classList.contains("box-filled-1"))) {
                 winner = player1;
@@ -160,7 +172,6 @@
                 console.log("p2 wins");
             }
         }
-
 
     }
 
