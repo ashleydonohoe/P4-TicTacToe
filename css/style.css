@@ -193,13 +193,13 @@ h1 {
 }
 
 .boxes .box-filled-1 {
-  background-color: #FFA000;
-  background-image: url(../img/o.svg);
+  background-color: #FFA000 !important;
+  background-image: url(../img/o.svg) !important;
 }
 
 .boxes .box-filled-2 {
-  background-color: #3688C3;
-  background-image: url(../img/x.svg);
+  background-color: #3688C3 !important;
+  background-image: url(../img/x.svg) !important;
 }
 
 #name1,

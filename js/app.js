@@ -72,7 +72,6 @@
             // Add click listener for user selection
             gameSquares[i].addEventListener("click", function (event) {
                 if (!checkIfFilled(gameSquares[i])) {
-                    this.backgroundImage = "none";
                     if (currentPlayer === "O") {
                         console.log("Adding orange");
                         this.classList.add("box-filled-1");
