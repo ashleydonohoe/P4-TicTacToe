@@ -13,11 +13,8 @@
     const player2 = "X";
 
     let currentPlayer;
-    let winner = "";
-    let tie = false;
-
-    console.log(winner);
-
+    let winner;
+    let tie;
 
     // Start game
     startButton.onclick = function() {
@@ -39,6 +36,10 @@
         // Add the interaction
         setupBoardInteraction();
 
+        // Reset winner and tie
+        winner = "";
+        tie = false;
+
         // Set first player to start the game
         setCurrentPlayer(player1);
     };
@@ -46,9 +47,9 @@
     function setupBoardInteraction() {
         // Adding mouseover highlight to game squares
         let gameSquares = document.getElementsByClassName("box");
-        for(let i = 0; i < gameSquares.length; i++) {
-            gameSquares[i].addEventListener("mouseover", function(event) {
-                if(!checkIfFilled(gameSquares[i])) {
+        for (let i = 0; i < gameSquares.length; i++) {
+            gameSquares[i].addEventListener("mouseover", function (event) {
+                if (!checkIfFilled(gameSquares[i])) {
                     if (currentPlayer === "O") {
                         this.style.backgroundImage = "url('./img/o.svg')";
                         this.style.backgroundRepeat = "no-repeat";
@@ -62,16 +63,17 @@
             });
 
             // On mouse out, the background image disappears
-            gameSquares[i].addEventListener("mouseout", function(event) {
-                if(!checkIfFilled(gameSquares[i])) {
+            gameSquares[i].addEventListener("mouseout", function (event) {
+                if (!checkIfFilled(gameSquares[i])) {
                     this.style.background = "#EFEFEF";
                 }
             });
 
             // Add click listener for user selection
-            gameSquares[i].addEventListener("click", function(event) {
-                if(!checkIfFilled(gameSquares[i])) {
-                    if(currentPlayer === "O") {
+            gameSquares[i].addEventListener("click", function (event) {
+                if (!checkIfFilled(gameSquares[i])) {
+                    this.backgroundImage = "none";
+                    if (currentPlayer === "O") {
                         console.log("Adding orange");
                         this.classList.add("box-filled-1");
                     } else if (currentPlayer === "X") {
@@ -80,29 +82,12 @@
                     }
 
                     // Check if there's a winner or tie
-                    checkIfGameOver();
-
-                    if(winner !== "" && tie === false) {
-                        if(winner === player1) {
-                            body.innerHTML = "<h1>Game Over</h1><p>" + playerOneName + " wins</p>";
-                        } else {
-                            body.innerHTML = "<h1>Game Over</h1><p>" + playerTwoName + " wins</p>";
-                        }
-                    } else if(tie === true) {
-                        body.innerHTML = "<h1>Game Over</h1><p>It's a tie!</p>";
-                    }else {
-                        // If not, Change currentPlayer to opposite player
-                        if(currentPlayer === "O") {
-                            setCurrentPlayer(player2);
-                        } else {
-                            setCurrentPlayer(player1);
-                        }
-                    }
+                    checkForWinner();
+                    checkForGameOver();
                 }
             });
         }
     }
-
 
     // Allows turns by setting the player
     function setCurrentPlayer(playerName) {
@@ -124,7 +109,7 @@
         return box.classList.contains("box-filled-1") || box.classList.contains("box-filled-2");
     }
 
-    function checkIfGameOver() {
+    function checkForWinner() {
         //Grab all list items
         const gameSquares = document.getElementsByClassName("box");
 
@@ -155,11 +140,9 @@
             if(winner === "") {
                 let filledSquares = 0;
 
-                // Loop through each square to see if it's missing one of the two classes
                 for(let i = 0; i < gameSquares.length; i++) {
                     // check if all squares have either the box-filled-1 or box-filled-2 class; increment counter if so
-                    if((gameSquares[i].classList.contains("box-filled-1") || gameSquares[i].classList.contains("box-filled-2"))){
-                        // if neither class is present for ANY, then we can break and assume no tie and break
+                    if(checkIfFilled(gameSquares[i])){
                         filledSquares++;
                     }
                 }
@@ -183,5 +166,40 @@
 
     }
 
+    function changePlayer() {
+        if(currentPlayer === "O") {
+            setCurrentPlayer(player2);
+        } else {
+            setCurrentPlayer(player1);
+        }
+    }
+
+    function checkForGameOver() {
+        if(winner !== "" && tie === false) {
+            if(winner === player1) {
+                showEndScreen(("Winner: " + playerOneName), "screen-win-one");
+            } else {
+                showEndScreen(("Winner: " + playerTwoName), "screen-win-two");
+            }
+        } else if(tie === true) {
+            showEndScreen("Tie" + playerOneName, "screen-win-tie");
+        } else {
+            // If not, Change currentPlayer to opposite player
+            changePlayer();
+        }
+     }
+
+     function showEndScreen(message, winnerClassName) {
+        let endScreenHTML = '<div class="screen screen-win ' + winnerClassName+  '"id="finish">';
+        endScreenHTML += '<header> <h1>Tic Tac Toe</h1> <p class="message">' + message + '</p> <a href="#" class="button" id="new-game">New game</a> </header> </div>';
+
+        body.innerHTML = endScreenHTML;
+
+        // Add event listener for the new button that appears
+         const newGameButton = document.getElementById("new-game");
+
+         // Reload gameboard
+         newGameButton.addEventListener("click", loadGameBoard);
+     }
 }());
 

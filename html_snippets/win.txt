@@ -1,7 +1,7 @@
-<div class="screen screen-win" id="finish">
+'<div class="screen screen-win" id="finish"> // add winner class or tie class
   <header>
     <h1>Tic Tac Toe</h1>
-    <p class="message"></p> // Have winner name here
+    <p class="message"></p>
     <a href="#" class="button">New game</a>
   </header>
-</div>
+</div>';
