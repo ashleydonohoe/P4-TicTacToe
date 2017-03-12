@@ -181,7 +181,7 @@
                 showEndScreen(("Winner: " + playerTwoName), "screen-win-two");
             }
         } else if(tie === true) {
-            showEndScreen("Tie" + playerOneName, "screen-win-tie");
+            showEndScreen("Tie", "screen-win-tie");
         } else {
             // If not, Change currentPlayer to opposite player
             changePlayer();
